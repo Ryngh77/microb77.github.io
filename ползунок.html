@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Двойной прогресс-бар с подписями</title>
+  <style>
+    body 
+   { 
+    margin: 100; 
+    padding: ; 
+    height: 100px;
+     overflow: hidden; }
+
+    {
+      font-family: sans-serif;
+      padding: 30px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f5f5f5;
+    }
+
+    .wrapper {
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 40px;
+    }
+
+    .slider-track {
+      position: absolute;
+      top: 18px; /* центр по ручке */
+      left: 0;
+      height: 6px;
+      width: 100%;
+      background: #ccc;
+      border-radius: 3px;
+      z-index: 1;
+    }
+
+    .range-between {
+      position: absolute;
+      top: 18px;
+      height: 6px;
+      background: green;
+      border-radius: 3px;
+      z-index: 2;
+    }
+
+    input[type=range] {
+      position: absolute;
+      width: 100%;
+      margin: 0;
+      top: 12px; /* ручка по центру линии */
+      pointer-events: none;
+      background: none;
+      z-index: 3;
+      -webkit-appearance: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      pointer-events: all;
+      -webkit-appearance: none;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: green;
+      border: 2px solid white;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 6px;
+      background: transparent;
+    }
+
+    input[type=range]::-moz-range-thumb {
+      pointer-events: all;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: green;
+      border: 2px solid white;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    input[type=range]::-moz-range-track {
+      height: 6px;
+      background: transparent;
+    }
+
+    .thumb-label {
+    position: absolute;
+    top: -20px; /* над ползунком */
+    background: #fff;
+    padding: 2px 6px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateX(-50%);
+    z-index: 10;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="labels">
+    <div id="label-left">25</div>
+    <div id="label-right">75</div>
+  </div>
+
+  <div class="slider-container">
+    <div id="thumb-label-left" class="thumb-label">25</div>
+    <div id="thumb-label-right" class="thumb-label">75</div>
+    <div class="slider-track"></div>
+    <div class="range-between" id="range-between"></div>
+    <input type="range" id="range1" min="0" max="100" value="25">
+    <input type="range" id="range2" min="0" max="100" value="75">
+  </div>
+</div>
+
+<script>
+  const range1 = document.getElementById("range1");
+  const range2 = document.getElementById("range2");
+  const between = document.getElementById("range-between");
+  const labelLeft = document.getElementById("label-left");
+  const labelRight = document.getElementById("label-right");
+
+  function updateTrack() {
+  let val1 = parseInt(range1.value);
+  let val2 = parseInt(range2.value);
+
+  // Запрет пересечения
+  if (val1 >= val2) {
+    if (event?.target === range1) {
+      val1 = val2 - 1;
+      range1.value = val1;
+    } else {
+      val2 = val1 + 1;
+      range2.value = val2;
+    }
+  }
+
+  const min = Math.min(val1, val2);
+  const max = Math.max(val1, val2);
+
+  // Обновление полоски
+  const percentMin = min;
+  const percentMax = max;
+
+  between.style.left = percentMin + "%";
+  between.style.width = (percentMax - percentMin) + "%";
+
+  // Обновление подписей по бокам
+  labelLeft.textContent = min;
+  labelRight.textContent = max;
+
+  // Получаем ширину контейнера
+  const containerWidth = range1.offsetWidth;
+
+  // Позиции thumb-меток
+  const labelLeftEl = document.getElementById("thumb-label-left");
+  const labelRightEl = document.getElementById("thumb-label-right");
+
+  const leftPos = (val1 / 100) * containerWidth;
+  const rightPos = (val2 / 100) * containerWidth;
+
+  labelLeftEl.style.left = leftPos + "px";
+  labelLeftEl.textContent = val1;
+
+  labelRightEl.style.left = rightPos + "px";
+  labelRightEl.textContent = val2;
+}
+
+
+  range1.addEventListener("input", updateTrack);
+  range2.addEventListener("input", updateTrack);
+  updateTrack(); // начальная инициализация
+</script>
+<style>
+  /* Стили для прелоадера */
+  .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+  }
+  
+  .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+  
+  /* После загрузки */
+  .loaded .preloader {
+      opacity: 0;
+      pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<!-- Прелоадер -->
+<div class="preloader">
+  <div class="spinner"></div>
+</div>
+
+<!-- Основное содержимое страницы -->
+<div class="content">
+  <h1>Добро пожаловать на мой сайт</h1>
+  <p>Содержимое страницы загружено.</p>
+</div>
+
+<script>
+  // Скрипт для скрытия прелоадера после загрузки страницы
+  window.addEventListener('load', function() {
+      setTimeout(function() {
+          document.querySelector('.preloader').style.opacity = '0';
+          setTimeout(function() {
+              document.querySelector('.preloader').style.display = 'none';
+              document.body.classList.add('loaded');
+          }, 500);
+      }, 1000); // Имитация загрузки (можно убрать)
+  });
+</script>
+</body>
+</html>

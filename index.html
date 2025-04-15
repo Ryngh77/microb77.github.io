@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Элементы интерфейса</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Элементы интерфейса</h1>
+        
+        <!-- Кнопка -->
+        <section>
+            <h2>Кнопка</h2>
+            <button class="btn">Обычная кнопка</button>
+            <button class="btn btn-primary">Основная кнопка</button>
+            <button class="btn btn-secondary">Дополнительная кнопка</button>
+            <button class="btn btn-danger">Опасное действие</button>
+            <button class="btn" disabled>Неактивная кнопка</button>
+        </section>
+
+        <!-- Радиокнопка -->
+        <section>
+            <h2>Радиокнопка</h2>
+            <div class="radio-group">
+                <label class="radio">
+                    <input type="radio" name="radio-group" checked>
+                    <span class="radio-custom"></span>
+                    Вариант 1
+                </label>
+                <label class="radio">
+                    <input type="radio" name="radio-group">
+                    <span class="radio-custom"></span>
+                    Вариант 2
+                </label>
+                <label class="radio">
+                    <input type="radio" name="radio-group" disabled>
+                    <span class="radio-custom"></span>
+                    Неактивный вариант
+                </label>
+            </div>
+        </section>
+
+        <!-- Чекбокс -->
+        <section>
+            <h2>Чекбокс</h2>
+            <div class="checkbox-group">
+                <label class="checkbox">
+                    <input type="checkbox" checked>
+                    <span class="checkbox-custom"></span>
+                    Выбранный вариант
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox">
+                    <span class="checkbox-custom"></span>
+                    Невыбранный вариант
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" disabled>
+                    <span class="checkbox-custom"></span>
+                    Неактивный вариант
+                </label>
+            </div>
+        </section>
+
+        <!-- Выпадающий список -->
+        <section>
+            <h2>Выпадающий список</h2>
+            <select class="dropdown">
+                <option value="">Выберите вариант</option>
+                <option value="1">Вариант 1</option>
+                <option value="2">Вариант 2</option>
+                <option value="3">Вариант 3</option>
+            </select>
+            <select class="dropdown" disabled>
+                <option value="">Неактивный список</option>
+            </select>
+        </section>
+
+        <!-- Слайдер -->
+        <section>
+            <h2>Слайдер</h2>
+            <input type="range" class="slider" min="0" max="100" value="50">
+            <input type="range" class="slider" min="0" max="100" value="30" disabled>
+        </section>
+
+        <!-- Контент блок -->
+        <section>
+            <h2>Контент блок</h2>
+            <div class="content-block">
+                <h3>Заголовок блока</h3>
+                <p>Это пример контентного блока с текстом. Здесь может находиться любая информация, которую нужно выделить в отдельный блок на странице.</p>
+            </div>
+        </section>
+
+        <!-- Popup -->
+        <section>
+            <h2>Popup</h2>
+            <button id="openPopupBtn" class="btn">Открыть popup</button>
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <span class="close-popup">&times;</span>
+                    <h3>Это popup</h3>
+                    <p>Пример всплывающего окна с контентом.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Диалог -->
+        <section>
+            <h2>Диалог</h2>
+            <button id="openDialogBtn" class="btn">Открыть диалог</button>
+            <dialog id="dialog" class="dialog">
+                <h3>Подтвердите действие</h3>
+                <p>Вы уверены, что хотите выполнить это действие?</p>
+                <div class="dialog-buttons">
+                    <button class="btn btn-secondary" id="cancelDialogBtn">Отмена</button>
+                    <button class="btn btn-primary" id="confirmDialogBtn">Подтвердить</button>
+                </div>
+            </dialog>
+        </section>
+
+        <!-- Галерея -->
+        <!-- Галерея -->
+<section>
+    <h2>Галерея</h2>
+    <div class="gallery">
+        <div class="gallery-item active">
+            <img src="1.webp" alt="Изображение 1">
+        </div>
+        <div class="gallery-item">
+            <img src="2.webp" alt="Изображение 2">
+        </div>
+        <div class="gallery-item">
+            <img src="3.webp" alt="Изображение 3">
+        </div>
+        <div class="gallery-nav">
+            <button class="gallery-prev">&larr;</button>
+            <span class="gallery-counter">1 / 3</span>
+            <button class="gallery-next">&rarr;</button>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const gallery = document.querySelector('.gallery');
+    const items = gallery.querySelectorAll('.gallery-item');
+    const prevBtn = gallery.querySelector('.gallery-prev');
+    const nextBtn = gallery.querySelector('.gallery-next');
+    const counter = gallery.querySelector('.gallery-counter');
+    
+    let currentIndex = 0;
+    const totalItems = items.length;
+    
+    // Функция обновления галереи
+    function updateGallery() {
+        // Скрываем все элементы
+        items.forEach(item => item.classList.remove('active'));
+        
+        // Показываем текущий элемент
+        items[currentIndex].classList.add('active');
+        
+        // Обновляем счетчик
+        counter.textContent = `${currentIndex + 1} / ${totalItems}`;
+        
+        // Управляем состоянием кнопок
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === totalItems - 1;
+    }
+    
+    // Обработчики кнопок
+    prevBtn.addEventListener('click', function() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateGallery();
+        }
+    });
+    
+    nextBtn.addEventListener('click', function() {
+        if (currentIndex < totalItems - 1) {
+            currentIndex++;
+            updateGallery();
+        }
+    });
+    
+    // Инициализация галереи
+    updateGallery();
+});
+</script>
+
+        <!-- Подсказка -->
+        <section>
+            <h2>Подсказка</h2>
+            <div class="tooltip-container">
+                Наведите на меня
+                <span class="tooltip">Это текст подсказки</span>
+            </div>
+        </section>
+
+        <!-- Курсоры -->
+        <section>
+            <h2>Курсоры</h2>
+            <div class="cursor-examples">
+                <div class="cursor-default">default</div>
+                <div class="cursor-pointer">pointer</div>
+                <div class="cursor-wait">wait</div>
+                <div class="cursor-help">help</div>
+                <div class="cursor-text">text</div>
+                <div class="cursor-move">move</div>
+                <div class="cursor-not-allowed">not-allowed</div>
+            </div>
+        </section>
+
+        <!-- Стрелки навигации -->
+        <section>
+            <h2>Стрелки навигации</h2>
+            <div class="navigation-arrows">
+                <button class="nav-arrow prev">&larr; Назад</button>
+                <button class="nav-arrow next">Вперёд &rarr;</button>
+            </div>
+        </section>
+
+        <!-- Нумерация страниц -->
+        <section>
+            <h2>Нумерация страниц</h2>
+            <div class="pagination">
+                <a href="#" class="page-item">&laquo;</a>
+                <a href="#" class="page-item">1</a>
+                <a href="#" class="page-item active">2</a>
+                <a href="#" class="page-item">3</a>
+                <a href="#" class="page-item">4</a>
+                <a href="#" class="page-item">5</a>
+                <a href="#" class="page-item">&raquo;</a>
+            </div>
+        </section>
+
+        <!-- Маркеры списков -->
+        <section>
+            <h2>Маркеры списков</h2>
+            <ul class="custom-list">
+                <li>Обычный элемент списка</li>
+                <li>Еще один элемент</li>
+                <li class="checked">Выполненный элемент</li>
+                <li class="star">Важный элемент</li>
+                <li class="arrow">Элемент со стрелкой</li>
+            </ul>
+        </section>
+
+        <!-- Поисковая строка -->
+        <section>
+            <h2>Поисковая строка</h2>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Поиск...">
+                <button class="search-btn">Найти</button>
+            </div>
+        </section>
+
+        <!-- Элементы плеера для видео -->
+        <section>
+            <h2>Плеер для видео</h2>
+            <div class="video-player">
+                <div class="video-container">
+                    <video class="video" poster="https://via.placeholder.com/640x360?text=Video+Player">
+                        <source src="#" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                </div>
+                <div class="video-controls">
+                    <button class="play-btn">▶</button>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <span class="time">0:00 / 0:00</span>
+                    <button class="fullscreen-btn">⛶</button>
+                    <button class="volume-btn">🔊</button>
+                    <input type="range" class="volume-slider" min="0" max="100" value="100">
+                </div>
+            </div>
+        </section>
+
+        <!-- Элементы плеера для аудио -->
+        <section>
+            <h2>Плеер для аудио</h2>
+            <div class="audio-player">
+                <div class="audio-info">
+                    <div class="audio-title">Название трека</div>
+                    <div class="audio-artist">Исполнитель</div>
+                </div>
+                <div class="audio-controls">
+                    <button class="audio-prev">⏮</button>
+                    <button class="audio-play">▶</button>
+                    <button class="audio-next">⏭</button>
+                    <div class="audio-progress-bar">
+                        <div class="audio-progress"></div>
+                    </div>
+                    <span class="audio-time">0:00 / 3:45</span>
+                    <button class="audio-repeat">🔁</button>
+                    <button class="audio-shuffle">🔀</button>
+                    <input type="range" class="audio-volume" min="0" max="100" value="80">
+                </div>
+            </div>
+        </section>
+
+        <!-- Ползунок для выбора диапазона -->
+         <h2>Ползунок диапазона</h2>
+        <iframe 
+    src="polznadpis.html" 
+    width="100%" 
+    height="100" 
+    scrolling="no" 
+    style="overflow: hidden; border: none;"
+></iframe>
+
+        <!-- Текстовые поля -->
+        <section>
+            <h2>Текстовые поля</h2>
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" class="text-input" placeholder="Введите ваше имя">
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" class="text-input" placeholder="Введите пароль">
+            </div>
+            <<div class="form-group">
+                <label for="phone">Телефон:</label>
+<input type="text" id="phone" class="text-input" placeholder="+7 (___) ___-__-__"
+       pattern="\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}"
+       maxlength="18"  <!-- Макс. длина с учетом символов маски -->
+>
+
+<script>
+document.getElementById('phone').addEventListener('input', function(e) {
+  // Удаляем всё, кроме цифр и ограничиваем до 11 цифр (10 после +7)
+  let digits = e.target.value.replace(/\D/g, '').substring(0, 11);
+  
+  // Разбиваем на группы: +7 (3 цифры) (3 цифры) (2 цифры) (2 цифры)
+  let x = digits.match(/^(\d{1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+  
+  // Форматируем номер
+  e.target.value = !x[1] ? '' : '+7' + 
+    (x[2] ? ' (' + x[2] : '') + 
+    (x[3] ? ') ' + x[3] : '') + 
+    (x[4] ? '-' + x[4] : '') + 
+    (x[5] ? '-' + x[5] : '');
+});
+
+// Запрещаем ввод, если уже 11 цифр (10 после +7)
+document.getElementById('phone').addEventListener('keydown', function(e) {
+  let digits = e.target.value.replace(/\D/g, '');
+  if (digits.length >= 11 && !["Backspace", "Delete", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault();
+  }
+});
+</script>
+            </div>
+        </section>
+
+        <!-- Ссылки -->
+        <section>
+            <h2>Ссылки</h2>
+            <a href="https://example.com" class="link" target="_blank">Обычная ссылка</a>
+            <br>
+            <a href="#top" class="link">Якорная ссылка</a>
+        </section>
+
+        <!-- Вкладки -->
+        <style>
+            /* Основные стили для системы вкладок */
+            .tabs-system {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                max-width: 1000px;
+                margin: 20px auto;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            
+            /* Стили для заголовков вкладок */
+            .tabs-header {
+                display: flex;
+                background: #f8f9fa;
+                border-bottom: 1px solid #dee2e6;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                padding: 14px 20px;
+                cursor: pointer;
+                background: none;
+                border: none;
+                border-right: 1px solid #dee2e6;
+                font-size: 16px;
+                font-weight: 500;
+                color: #495057;
+                transition: all 0.25s ease;
+                outline: none;
+                text-align: center;
+                position: relative;
+            }
+            
+            .tab-btn:last-child {
+                border-right: none;
+            }
+            
+            .tab-btn:hover {
+                background: #e9ecef;
+                color: #212529;
+            }
+            
+            .tab-btn.active {
+                color: #0d6efd;
+                background: #fff;
+                font-weight: 600;
+            }
+            
+            .tab-btn.active::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: #0d6efd;
+            }
+            
+            /* Стили для содержимого вкладок */
+            .tab-content {
+                padding: 25px;
+                background: #fff;
+                min-height: 200px;
+            }
+            
+            .tab-pane {
+                display: none;
+                animation: fadeIn 0.3s ease-out;
+            }
+            
+            .tab-pane.active {
+                display: block;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(5px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            /* Адаптивность для мобильных устройств */
+            @media (max-width: 768px) {
+                .tabs-header {
+                    flex-direction: column;
+                }
+                
+                .tab-btn {
+                    border-right: none;
+                    border-bottom: 1px solid #dee2e6;
+                    text-align: left;
+                }
+                
+                .tab-btn.active::after {
+                    top: 0;
+                    bottom: auto;
+                    left: auto;
+                    right: 0;
+                    width: 3px;
+                    height: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="tabs-system">
+            <!-- Заголовки вкладок -->
+            <div class="tabs-header" role="tablist">
+                <button class="tab-btn active" 
+                        id="tab-btn-1"
+                        data-tab="tab1" 
+                        role="tab" 
+                        aria-selected="true" 
+                        aria-controls="tab1">Основная информация</button>
+                <button class="tab-btn" 
+                        id="tab-btn-2"
+                        data-tab="tab2" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="tab2">Дополнительные данные</button>
+                <button class="tab-btn" 
+                        id="tab-btn-3"
+                        data-tab="tab3" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="tab3">Настройки</button>
+            </div>
+            
+            <!-- Содержимое вкладок -->
+            <div class="tab-content">
+                <div id="tab1" class="tab-pane active" role="tabpanel" aria-labelledby="tab-btn-1">
+                    <h2>Основная информация</h2>
+                    <p>Это содержимое первой вкладки. Здесь вы можете разместить любую информацию, формы или другие элементы.</p>
+                    <!-- Место для вашего контента -->
+                </div>
+                
+                <div id="tab2" class="tab-pane" role="tabpanel" aria-labelledby="tab-btn-2" hidden>
+                    <h2>Дополнительные данные</h2>
+                    <p>Содержимое второй вкладки. Добавьте сюда дополнительные материалы или данные.</p>
+                    <!-- Место для вашего контента -->
+                </div>
+                
+                <div id="tab3" class="tab-pane" role="tabpanel" aria-labelledby="tab-btn-3" hidden>
+                    <h2>Настройки</h2>
+                    <p>Третья вкладка с настройками. Разместите здесь элементы управления.</p>
+                    <!-- Место для вашего контента -->
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            // Улучшенная система вкладок
+            document.addEventListener('DOMContentLoaded', function() {
+                const tabsSystem = document.querySelector('.tabs-system');
+                const tabBtns = tabsSystem.querySelectorAll('.tab-btn');
+                const tabPanes = tabsSystem.querySelectorAll('.tab-pane');
+                
+                // Функция переключения вкладок
+                function switchTab(tabId) {
+                    // Обновляем состояние кнопок
+                    tabBtns.forEach(btn => {
+                        const isActive = btn.getAttribute('data-tab') === tabId;
+                        btn.classList.toggle('active', isActive);
+                        btn.setAttribute('aria-selected', isActive);
+                    });
+                    
+                    // Обновляем состояние панелей
+                    tabPanes.forEach(pane => {
+                        const isActive = pane.id === tabId;
+                        pane.classList.toggle('active', isActive);
+                        pane.hidden = !isActive;
+                    });
+                    
+                    // Обновляем URL без перезагрузки страницы
+                    history.pushState(null, null, `#${tabId}`);
+                }
+                
+                // Обработчики кликов
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        switchTab(tabId);
+                    });
+                    
+                    // Поддержка клавиатуры
+                    btn.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                            e.preventDefault();
+                            const tabId = this.getAttribute('data-tab');
+                            switchTab(tabId);
+                        }
+                    });
+                });
+                
+                // Инициализация по хэшу URL
+                if (window.location.hash) {
+                    const tabFromHash = document.querySelector(`[data-tab="${window.location.hash.slice(1)}"]`);
+                    if (tabFromHash) switchTab(window.location.hash.slice(1));
+                }
+                
+                // Обработка кнопок браузера "Назад"/"Вперед"
+                window.addEventListener('popstate', function() {
+                    if (window.location.hash) {
+                        const tabFromHash = document.querySelector(`[data-tab="${window.location.hash.slice(1)}"]`);
+                        if (tabFromHash) switchTab(window.location.hash.slice(1));
+                    }
+                });
+            });
+        </script>
+        <!-- Прелоадер -->
+         <h1>Прелоадер (preloader)</h1>
+        <style>
+            /* Стили для прелоадера */
+            .preloader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: yellow;
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                transition: opacity 0.5s ease;
+            }
+            
+            .loader-logo {
+                width: 80px;
+                margin-bottom: 20px;
+                opacity: 0;
+                animation: fadeIn 0.5s ease forwards;
+            }
+            
+            .progress-container {
+                width: 200px;
+                height: 4px;
+                background: #e0e0e0;
+                border-radius: 2px;
+                overflow: hidden;
+            }
+            
+            .progress-bar {
+                height: 100%;
+                background: #4285f4;
+                width: 0%;
+                transition: width 0.3s ease;
+            }
+            
+            .loading-text {
+                margin-top: 15px;
+                font-family: Arial, sans-serif;
+                color: #555;
+                font-size: 14px;
+            }
+            
+            /* Стили для кнопки */
+            .load-button {
+                padding: 12px 24px;
+                background: #4285f4;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-size: 16px;
+                cursor: pointer;
+                margin: 20px;
+                transition: background 0.3s ease;
+            }
+            
+            .load-button:hover {
+                background: #3367d6;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Кнопка для запуска прелоадера -->
+        <button class="load-button" id="loadButton">Загрузить данные</button>
+        
+        <!-- Прелоадер (изначально скрыт) -->
+        <div class="preloader" id="preloader">
+            <img src="https://via.placeholder.com/80x80" alt="Logo" class="loader-logo">
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="loading-text" id="loading-text">Загрузка 0%</div>
+        </div>
+    
+        <!-- Основное содержимое страницы -->
+        <div class="content">
+            <p>Нажмите на кнопку выше, чтобы увидеть preloader в действии.</p>
+        </div>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loadButton = document.getElementById('loadButton');
+                const preloader = document.getElementById('preloader');
+                const progressBar = document.getElementById('progress-bar');
+                const loadingText = document.getElementById('loading-text');
+                
+                loadButton.addEventListener('click', function() {
+                    // Показываем прелоадер
+                    preloader.style.display = 'flex';
+                    preloader.style.opacity = '1';
+                    
+                    // Сбрасываем прогресс
+                    progressBar.style.width = '0%';
+                    loadingText.textContent = 'Загрузка 0%';
+                    
+                    // Имитация процесса загрузки
+                    let progress = 0;
+                    const interval = setInterval(() => {
+                        progress += Math.random() * 15;
+                        if (progress > 100) progress = 100;
+                        
+                        progressBar.style.width = progress + '%';
+                        loadingText.textContent = 'Загрузка ' + Math.round(progress) + '%';
+                        
+                        if (progress >= 100) {
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                preloader.style.opacity = '0';
+                                setTimeout(() => {
+                                    preloader.style.display = 'none';
+                                    alert('Загрузка завершена!');
+                                }, 500);
+                            }, 300);
+                        }
+                    }, 200);
+                });
+                
+                // Реальный вариант с загрузкой данных (пример):
+                /*
+                loadButton.addEventListener('click', function() {
+                    preloader.style.display = 'flex';
+                    preloader.style.opacity = '1';
+                    
+                    fetch('https://api.example.com/data')
+                        .then(response => {
+                            // Обновляем прогресс
+                            progressBar.style.width = '50%';
+                            loadingText.textContent = 'Загрузка 50%';
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Завершаем загрузку
+                            progressBar.style.width = '100%';
+                            loadingText.textContent = 'Загрузка 100%';
+                            
+                            setTimeout(() => {
+                                preloader.style.opacity = '0';
+                                setTimeout(() => {
+                                    preloader.style.display = 'none';
+                                    // Обработка загруженных данных
+                                    console.log(data);
+                                }, 500);
+                            }, 500);
+                        })
+                        .catch(error => {
+                            console.error('Ошибка загрузки:', error);
+                            loadingText.textContent = 'Ошибка загрузки';
+                            progressBar.style.background = '#f44336';
+                        });
+                });
+                */
+            });
+        </script>
+</body>
+</html>
