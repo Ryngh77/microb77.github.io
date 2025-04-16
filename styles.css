@@ -1,13 +1,13 @@
 /* Базовые стили */
 :root {
-    --primary-color: #ff00ff;
-    --secondary-color: #34a853;
-    --danger-color: #f51f0c;
-    --text-color: #333;
-    --light-gray: #8400ff;
-    --gray: #e6afaf;
+    --primary-color: #e8f1eb;
+    --secondary-color: #e8f1eb;
+    --danger-color: #fa705e;
+    --text-color: #b13939;
+    --light-gray: #d5cadf;
+    --gray: #f5efee;
     --dark-gray: #5e4646;
-    --white: #fff;
+    --white: #131010;
     --black: #000;
     --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
@@ -65,7 +65,7 @@ section {
 }
 
 .btn:hover {
-    background-color: #8400ff;
+    background-color: #fbff00;
     transform: translateY(-2px);
 }
 
@@ -75,7 +75,7 @@ section {
 }
 
 .btn-primary:hover {
-    background-color: #3367d6;
+    background-color: #6797ff;
 }
 
 .btn-secondary {
@@ -84,7 +84,7 @@ section {
 }
 
 .btn-secondary:hover {
-    background-color: #2d9249;
+    background-color: #64df86;
 }
 
 .btn-danger {
